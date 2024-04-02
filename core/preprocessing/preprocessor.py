@@ -2,6 +2,7 @@ import os
 import re
 import nltk
 nltk.download('punkt')
+nltk.download('stopwords')
 from nltk.stem import PorterStemmer
 from collections import defaultdict
 from nltk.tokenize import word_tokenize
@@ -62,7 +63,6 @@ class Preprocessor:
                         docs.append(docno[0].strip())
                         #text_to_doc_mapping[combined_text] = docno[0].strip()
         
-        print(len(corpus))
         #print(len(text_to_doc_mapping))
         return corpus, docs
                         
@@ -76,6 +76,7 @@ class Preprocessor:
     
     def preprocessBM25(self, doc_folder_path):
         tokens = []
+        corpusStemmed = []
         corpus = []
         text_to_doc_mapping = {}
         docs = []
@@ -95,15 +96,20 @@ class Preprocessor:
                         for text in text_matches:
                             combined_text.append(text)
                         combined_text = ' '.join(combined_text)
+
+                        corpus.append(combined_text)
                         
                         ret = tokenize(combined_text)
                         print(docno[0].strip())
+
+                        #if ret not in tokens:
+                            #tokens[ret] = combined_text
                         tokens.append(ret)
                         text = " ".join(ret)
-                        corpus.append(text)
+                        corpusStemmed.append(text)
                         docs.append(docno[0].strip())
 
-        return tokens, corpus, docs
+        return tokens, corpusStemmed, corpus, docs
     
 
     # def removeSingles(self, vocab, docfreqs):
@@ -163,15 +169,15 @@ class Preprocessor:
         return queries
     
 def tokenize(text):
-    # text = text.lower()
-    # text = re.sub(r'[^\w\s\']|_', ' ', text)
-    # text = re.sub(r'\'{2,}', ' ', text)
-    # tokens = text.split()
-    # return tokens
+    text = text.lower()
+    text = re.sub(r'[^\w\s\']|_', ' ', text)
+    text = re.sub(r'\'{2,}', ' ', text)
+    tokens = text.split()
+    return tokens
     
-    tokens = word_tokenize(text.lower())
-    stop_words = set(stopwords.words('english'))
-    filtered_tokens = [word for word in tokens if word not in stop_words and word.isalnum()]
-    stemmer = PorterStemmer()
-    stemmed_tokens = [stemmer.stem(word) for word in filtered_tokens]
-    return stemmed_tokens
+    # tokens = word_tokenize(text.lower())
+    # stop_words = set(stopwords.words('english'))
+    # filtered_tokens = [word for word in tokens if word not in stop_words and word.isalnum()]
+    # stemmer = PorterStemmer()
+    # stemmed_tokens = [stemmer.stem(word) for word in filtered_tokens]
+    # return stemmed_tokens
