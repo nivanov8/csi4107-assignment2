@@ -15,7 +15,7 @@ class Filewriter:
         self.docs = docs
         self.tokens_to_passage = tokens_to_passage
         self.bm25 = BM25(tokens)
-        self.reranker = mxbai()
+        self.reranker = GIST()
 
     def writeOutput(self, queries):
         docs_retrieved = {}
@@ -37,10 +37,10 @@ class Filewriter:
 
             #ind_look = self.passages.index('    VaporSimac steam irons are being recalled because of danger of starting fires, the U.S. Consumer Product Safety Commission announced today.    About 10,000 VaporSimac irons have been sold nationwide by major department stores and sewing specialty centers, the agency said. The irons, which cost about $100 each, were sold between 1985 and 1987.    The recall was initiated following seven reports of fire, including one that caused a burn injury, the commission reported.    The irons come with a separate, transparent plastic water reservoir and are designed to operate both vertically and horizontally, the agency said.    Owners should immediately stop using the irons, and return them to Electra Craft, 250 Halsey St., Newark, N.J., 07102, for a refund including postage costs.    Persons needing more information can contact Electra Craft at 1-800-223-1898 or the Safety Commission at 1-800-638-2772. ')
 
-            query = "Represent this sentence for searching relevant passages: " + query
+            #query = "Represent this sentence for searching relevant passages: " + query
 
             bm25Pairs = [self.passages[top[i][1]] for i in range(len(top))]
-            bm25Pairs.insert(0, query)
+            #bm25Pairs.insert(0, query)
 
             embeddings_dict = self.reranker.get_embedding_dict(bm25Pairs, self.passage_to_doc_mapping) #tuple: [text, docNo]
 

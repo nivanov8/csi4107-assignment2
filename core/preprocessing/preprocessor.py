@@ -169,15 +169,15 @@ class Preprocessor:
         return queries
     
 def tokenize(text):
-    text = text.lower()
-    text = re.sub(r'[^\w\s\']|_', ' ', text)
-    text = re.sub(r'\'{2,}', ' ', text)
-    tokens = text.split()
-    return tokens
+    # text = text.lower()
+    # text = re.sub(r'[^\w\s\']|_', ' ', text)
+    # text = re.sub(r'\'{2,}', ' ', text)
+    # tokens = text.split()
+    # return tokens
     
-    # tokens = word_tokenize(text.lower())
-    # stop_words = set(stopwords.words('english'))
-    # filtered_tokens = [word for word in tokens if word not in stop_words and word.isalnum()]
-    # stemmer = PorterStemmer()
-    # stemmed_tokens = [stemmer.stem(word) for word in filtered_tokens]
-    # return stemmed_tokens
+    tokens = word_tokenize(text.lower())
+    stop_words = set(stopwords.words('english'))
+    filtered_tokens = [word for word in tokens if word not in stop_words and word.isalnum()]
+    stemmer = PorterStemmer()
+    stemmed_tokens = [stemmer.stem(word) for word in filtered_tokens]
+    return stemmed_tokens
