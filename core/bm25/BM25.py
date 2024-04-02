@@ -1,4 +1,3 @@
-from lib2to3.pgen2 import token
 from rank_bm25 import BM25Okapi
 import heapq
 from core.preprocessing.preprocessor import tokenize
